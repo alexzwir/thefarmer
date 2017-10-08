@@ -27,6 +27,8 @@ bmfbovespa = "http://www.bmfbovespa.com.br/pt_br/servicos/market-data/cotacoes/"
 advfn = "https://br.advfn.com/bolsa-de-valores/bovespa/ibovespa-IBOV/cotacao"
 sites_financeiros = [uol,bmfbovespa,advfn]
 
+targets_sites = {"advfn":"#quoteElementPiece6"}
+
 
 def naming_sites(site):
     partes = site.split(".")
@@ -38,27 +40,23 @@ def conecting_site(site):
     name_of_the_site = naming_sites(site)
     if response_code == 200:
         print(name_of_the_site," --> is ready to go!")
+        return(response)
     else:
         print(response_code.status_code)
 
+def price_of_financial_asset(site):
+    response = conecting_site(site)
+    text_raw = bs4.BeautifulSoup(response.text, "html.parser")
+    for site, target in targets_sites.items():
+        asset_price = text_raw.select(target)
+        site_price = [site,asset_price[0].getText()]
+        return(site_price)
 
-for site in sites_financeiros:
-     conecting_site(site)
+
+def main():
+    bovespa_index = price_of_financial_asset(sites_financeiros[2])
+    print("A última cotação da bovespa é:", bovespa_index[1],".Fonte:",bovespa_index[0].upper())
 
 
 
-# text_raw = bs4.BeautifulSoup(response.text, "html.parser")
-# #print(text_raw)
-# preco_da_acao = text_raw.select(".PriceTextDown")
-# print(len(preco_da_acao))
-# for i in preco_da_acao:
-#     print(i)
-#
-# preco_da_acao2 = text_raw.select("#quoteElementPiece6")
-# print(len(preco_da_acao2))
-# print(preco_da_acao2[0].getText())
-#
-#
-
-#rint(preco_da_acao)
-#print(preco_da_acao[0].getText())
+main()
