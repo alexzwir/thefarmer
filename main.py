@@ -54,12 +54,21 @@ def price_of_financial_asset(site):
         return(site_price)
 
 def storing_assets_value(asset,value,font):
-    datet =
-    return
+    response_store_asset = datetime.now()
+    info_asset = [response_store_asset,asset,value,font]
+    return info_asset
 
+def writing_log_file(time,asset,value,font):
+    values_log = open("value_logs.csv","a")
+    values_log.write(str(time)+","+ asset+","+value+","+font)
+    values_log.close()
 
 def main():
     bovespa_index = price_of_financial_asset(sites_financeiros[2])
     print("A última cotação da bovespa é:", bovespa_index[1],".Fonte:",bovespa_index[0].upper())
+
+    ibovespa_asset = (storing_assets_value("Ibovespa",bovespa_index[1],bovespa_index[0].upper()))
+    writing_log_file(ibovespa_asset[0],ibovespa_asset[1],ibovespa_asset[2],ibovespa_asset[3])
+
 
 main()
