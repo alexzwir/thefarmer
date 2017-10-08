@@ -8,7 +8,7 @@ This application will consulte several indexes and returning their values. The d
 - Valeu
 
 The index that will be check is:
-- Bovespa
+- Bovespa - ok
 - Petr4 stock
 - Netshoes stock
 - Criptocurrencies (Etherium, Bitcoin)
@@ -21,6 +21,7 @@ The first version will store data in a csv file. After that, it'll send an email
 
 """
 import requests, bs4
+from datetime import datetime
 
 uol = "https://economia.uol.com.br/cotacoes/bolsas/bvsp-bovespa/"
 bmfbovespa = "http://www.bmfbovespa.com.br/pt_br/servicos/market-data/cotacoes/"
@@ -52,11 +53,13 @@ def price_of_financial_asset(site):
         site_price = [site,asset_price[0].getText()]
         return(site_price)
 
+def storing_assets_value(asset,value,font):
+    datet =
+    return
+
 
 def main():
     bovespa_index = price_of_financial_asset(sites_financeiros[2])
     print("A última cotação da bovespa é:", bovespa_index[1],".Fonte:",bovespa_index[0].upper())
-
-
 
 main()
